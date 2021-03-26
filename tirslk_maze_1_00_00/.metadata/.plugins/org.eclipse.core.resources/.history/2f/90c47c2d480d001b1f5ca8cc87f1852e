@@ -1,0 +1,7 @@
+# FIXED
+
+CortexM.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/CortexM.c
+CortexM.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
+
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/CortexM.c: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 

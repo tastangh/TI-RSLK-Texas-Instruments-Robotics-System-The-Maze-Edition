@@ -1,0 +1,23 @@
+
+**** Build of configuration Debug for project pi ****
+
+"D:\\Apps\\TexasInstruments\\CCS7\\ccsv7\\utils\\bin\\gmake" -k -j 4 all -O 
+ 
+'Building file: "C:/Users/SEDAT/Desktop/New folder (2)/tirslk_maze_1_00_01/tirslk_maze_1_00_00/Lab16_Tach/Lab16_Tachmain.c"'
+'Invoking: ARM Compiler'
+"D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_18.12.1.LTS/bin/armcl" -mv4 --code_state=32 --include_path="C:/Users/SEDAT/Desktop/New folder/tirslk_maze_1_00_00/pi" --include_path="D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_18.12.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="Lab16_Tachmain.d_raw"  "C:/Users/SEDAT/Desktop/New folder (2)/tirslk_maze_1_00_01/tirslk_maze_1_00_00/Lab16_Tach/Lab16_Tachmain.c"
+
+>> Compilation failure
+subdir_rules.mk:9: recipe for target 'Lab16_Tachmain.obj' failed
+"C:/Users/SEDAT/Desktop/New folder (2)/tirslk_maze_1_00_01/tirslk_maze_1_00_00/Lab16_Tach/Lab16_Tachmain.c", line 69: fatal error #1965: cannot open source file "msp.h"
+1 catastrophic error detected in the compilation of "C:/Users/SEDAT/Desktop/New folder (2)/tirslk_maze_1_00_01/tirslk_maze_1_00_00/Lab16_Tach/Lab16_Tachmain.c".
+Compilation terminated.
+gmake: *** [Lab16_Tachmain.obj] Error 1
+'Building file: "../main.c"'
+'Invoking: ARM Compiler'
+"D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_18.12.1.LTS/bin/armcl" -mv4 --code_state=32 --include_path="C:/Users/SEDAT/Desktop/New folder/tirslk_maze_1_00_00/pi" --include_path="D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_18.12.1.LTS/include" -g --diag_warning=225 --diag_wrap=off --display_error_number --preproc_with_compile --preproc_dependency="main.d_raw"  "../main.c"
+'Finished building: "../main.c"'
+ 
+gmake: Target 'all' not remade because of errors.
+
+**** Build Finished ****

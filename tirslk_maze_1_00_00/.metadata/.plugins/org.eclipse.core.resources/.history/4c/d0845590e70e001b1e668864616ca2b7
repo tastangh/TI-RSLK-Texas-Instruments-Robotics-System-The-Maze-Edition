@@ -1,0 +1,263 @@
+// Lab17_Control.c
+// Runs on MSP432
+// Implementation of the control system.
+// Daniel and Jonathan Valvano
+// September 12, 2017
+
+/* This example accompanies the books
+   "Embedded Systems: Introduction to the MSP432 Microcontroller",
+       ISBN: 978-1512185676, Jonathan Valvano, copyright (c) 2017
+   "Embedded Systems: Real-Time Interfacing to the MSP432 Microcontroller",
+       ISBN: 978-1514676585, Jonathan Valvano, copyright (c) 2017
+   "Embedded Systems: Real-Time Operating Systems for ARM Cortex-M Microcontrollers",
+       ISBN: 978-1466468863, , Jonathan Valvano, copyright (c) 2017
+ For more information about my classes, my research, and my books, see
+ http://users.ece.utexas.edu/~valvano/
+
+Simplified BSD License (FreeBSD License)
+Copyright (c) 2017, Jonathan Valvano, All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+The views and conclusions contained in the software and documentation are
+those of the authors and should not be interpreted as representing official
+policies, either expressed or implied, of the FreeBSD Project.
+*/
+
+#include <stdint.h>
+#include "msp.h"
+#include "../inc/Clock.h"
+#include "../inc/CortexM.h"
+#include "../inc/PWM.h"
+#include "../inc/LaunchPad.h"
+#include "../inc/UART0.h"
+#include "../inc/Motor.h"
+#include "../inc/Bump.h"
+#include "../inc/ADC14.h"
+#include "../inc/TimerA1.h"
+#include "../inc/IRDistance.h"
+#include "../inc/Nokia5110.h"
+#include "../inc/LPF.h"
+#include "../inc/SysTickInts.h"
+#include "../inc/Tachometer.h"
+//#include "../inc/Reflectance.h"
+#include "../inc/TimerA2.h"
+#include "controllerpid.h"
+//******************************************************
+// Distance to wall proportional control
+// Incremental speed control 
+// Integral control, Line follower
+
+uint16_t leftTach;
+uint16_t rightTach;
+enum TachDirection leftDir;
+enum TachDirection rightDir;
+int32_t leftSteps;
+int32_t rightSteps;
+float LeftSpeed;
+float RightSpeed;
+float SetPointR=120;
+float SetPointL=150;
+float errorR;
+float errorL;
+float errorPR;
+float errorPL;
+float IntegralToplamR;
+float IntegralToplamL;
+float DerivR;
+float DerivL;
+float ProportionalPartR;
+float IntegralPartR;
+float DerivativePartR;
+float ProportionalPartL;
+float IntegralPartL;
+float DerivativePartL;
+float OutR1;
+float OutL1;
+float OutR;
+float OutL;
+static RT_MODEL rtM_;
+static RT_MODEL *const rtMPtr = &rtM_; /* Real-time model */
+static DW rtDW;
+real_T in1=150;
+real_T in2;
+real_T OutRsim;
+real_T OutRsim1;
+real_T OutRsim2;
+
+void readTach(){
+    Tachometer_Get(&leftTach,&leftDir,&leftSteps,&rightTach,&rightDir,&rightSteps);
+    LeftSpeed=2000000.0f/(float)leftTach;
+    RightSpeed=2000000.0f/(float)rightTach;
+    in2=RightSpeed;
+
+}
+
+
+
+void PIDController(float T,float KP,float KI,float KD){
+
+    errorR=SetPointR-RightSpeed;
+    errorL=SetPointL-LeftSpeed;
+
+    IntegralToplamR=IntegralToplamR+T*(errorR+errorPR)/2.00f;
+    IntegralToplamL=IntegralToplamL+T*(errorL+errorPL)/2.00f;
+    if(IntegralToplamR>=10000.0f){
+        IntegralToplamR=10000.0f;
+    }
+    if(IntegralToplamR<=-10000.0f){
+           IntegralToplamR=-10000.0f;
+    }
+
+    if(IntegralToplamL>=10000.0f){
+          IntegralToplamL=10000.0f;
+    }
+    if(IntegralToplamL<=-10000.0f){
+             IntegralToplamL=-10000.0f;
+    }
+    DerivR=(errorR-errorPR)/T;
+    DerivL=(errorL-errorPL)/T;
+
+    ProportionalPartR=KP*errorR;
+    ProportionalPartL=KP*errorL;
+
+    IntegralPartR=KI*IntegralToplamR;
+    IntegralPartL=KI*IntegralToplamL;
+
+    DerivativePartR=KD*DerivR;
+    DerivativePartL=KD*DerivL;
+
+    OutR1=ProportionalPartR+IntegralPartR+DerivativePartR;
+    OutL1=ProportionalPartL+IntegralPartL+DerivativePartL;
+
+    if(OutR1>=14998){
+        OutR=14998;
+    }
+    else if(OutR1<=3500){
+        OutR=3500;
+    }
+    else{
+        OutR=OutR1;
+    }
+
+
+    if(OutL1>=14998){
+       OutL=14998;
+    }
+    else if(OutL1<=1500){
+      OutL=1500;
+    }
+    else{
+            OutL=OutL1;
+     }
+
+    errorPR=errorR;
+    errorPL=errorL;
+    Motor_Forward(OutL,OutR);
+
+}
+float SpeedBufferL[7500];
+float SpeedBufferR[7500];
+uint32_t Time=0;
+
+
+
+void readint(void)
+{
+    readTach();
+    //sumof_step(&RTM,in1,in2,&outt);
+    //PIDController(0.01,100,800,0.0);
+    controllerpid_step(&rtM_,&OutRsim);
+    //errorPR=errorR;7
+   if(OutRsim>=0 && OutRsim<=1){
+       P1->OUT &= 0x3F;
+       OutRsim1=OutRsim*11998;
+       OutRsim2=OutRsim1+3000;
+       Motor_Forward(OutL,OutRsim2);
+   }
+   else if (OutRsim<0 && OutRsim>=-1){
+       P1->OUT |= 0xC0;
+       OutRsim1=OutRsim*11998;
+       OutRsim2=OutRsim1-3000;
+       Motor_Forward(OutL,-1*OutRsim2);
+   }
+
+   // Motor_Forward(OutL,OutRsim);
+
+
+
+
+   if(Time<4000){
+         SpeedBufferL[Time] = OutRsim2;
+         if(OutRsim1<0){
+             SpeedBufferR[Time] = -1*RightSpeed;
+         }
+         else{
+             SpeedBufferR[Time] = RightSpeed;
+         }
+
+      //UART0_OutString("      ");
+      //UART0_OutUDec(LeftSpeed);UART0_OutString("\n")
+
+      if(OutRsim >= 0)
+          {UART0_OutUDec(RightSpeed);UART0_OutString("  ");UART0_OutUDec(OutRsim2);UART0_OutString("\n");}
+      else if (OutRsim <0)
+          {UART0_OutString("-");UART0_OutUDec(RightSpeed);UART0_OutString("  ");UART0_OutString("-");UART0_OutUDec(-1*OutRsim2);UART0_OutString("\n");}
+     // UART0_OutString("RPM Value of Left: ");
+
+      //UART0_OutString("RPM Value of Left: ");UART0_OutUDec(LeftSpeed);UART0_OutString("  "); //UART0_OutString(" Left Steps :  ");UART0_OutUDec(leftSteps); UART0_OutString("    \t");
+      //UART0_OutString("RPM Value of Right: ");UART0_OutString("  "); UART0_OutUDec(RightSpeed);UART0_OutString("\n");
+    }
+
+    if(Time>4000){
+        Motor_Forward(0,0);
+    }
+
+    Time=Time+1;
+}
+
+void main(void){
+
+  DisableInterrupts();
+
+  Clock_Init48MHz();
+  Motor_Init();
+  PWM_Init34(15000, 0,0);
+  Tachometer_Init();
+  RT_MODEL *const rtM = rtMPtr;
+  rtM->dwork = &rtDW;
+  controllerpid_initialize(&rtM_);
+  Clock_Delay1ms(1000);
+  UART0_Init();
+  TimerA2_Init(&readint, 5000); // 100 Hz
+  EnableInterrupts();
+
+
+
+  // initialize UART0 115,200 baud rate
+// initialization
+// write this as part of Lab 17
+
+
+  while(1) ;
+}
+
+

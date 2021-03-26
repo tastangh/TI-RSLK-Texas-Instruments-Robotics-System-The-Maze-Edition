@@ -1,0 +1,27 @@
+# FIXED
+
+TExaS.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/TExaS.c
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
+TExaS.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/CortexM.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp_compatibility.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_ccs.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r_classic.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
+TExaS.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/system_msp432p401r.h
+TExaS.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/TExaS.h
+
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/TExaS.c: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/CortexM.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp_compatibility.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_ccs.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r_classic.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/system_msp432p401r.h: 
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/TExaS.h: 

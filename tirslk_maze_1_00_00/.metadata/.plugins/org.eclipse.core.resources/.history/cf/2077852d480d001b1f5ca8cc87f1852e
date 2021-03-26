@@ -1,0 +1,29 @@
+# FIXED
+
+Tachometer.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/Tachometer.c
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h
+Tachometer.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/Clock.h
+Tachometer.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/TA3InputCapture.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp_compatibility.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_ccs.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r_classic.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h
+Tachometer.obj: D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/system_msp432p401r.h
+Tachometer.obj: C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/Tachometer.h
+
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/Tachometer.c: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/tools/compiler/ti-cgt-arm_16.9.6.LTS/include/stdint.h: 
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/Clock.h: 
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/../inc/TA3InputCapture.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp_compatibility.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_ccs.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/msp432p401r_classic.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/core_cm4.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/CMSIS/cmsis_compiler.h: 
+D:/Apps/TexasInstruments/CCS7/ccsv7/ccs_base/arm/include/system_msp432p401r.h: 
+C:/Users/SEDAT/Desktop/New\ folder/tirslk_maze_1_00_00/inc/Tachometer.h: 

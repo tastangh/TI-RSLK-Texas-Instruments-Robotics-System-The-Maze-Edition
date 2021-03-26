@@ -1,0 +1,1 @@
+"./Clock.obj" "./CortexM.obj" "./LaunchPad.obj" "./PWM.obj" "./PWMSine.obj" "./TimerA2.obj" "./startup_msp432p401r_ccs.obj" "./system_msp432p401r.obj" "../msp432p401r.cmd" -llibc.a 
